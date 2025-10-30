@@ -28,7 +28,7 @@ export default function Item() {
     // } 
 
     if (pokeName) {
-      endpoint = `https://pokeapi.co/api/v2/pokemon`;
+      endpoint = `https://pokeapi.co/api/v2/pokemon?limit=2000`;
 
       let siftThrough
       let filteredResults
@@ -43,12 +43,12 @@ export default function Item() {
           console.log(siftThrough.results)
             filteredResults = siftThrough.results.filter((item) => {
             console.log(item.name)
-            item.name.toLowerCase().includes(pokeName.toLowerCase())
+            return item.name.toLowerCase().includes(pokeName.toLowerCase())
           })
         })
         .then(() => {
           console.log(filteredResults)
-          newEndpoint = `https://pokeapi.co/api/v2/pokemon/${filteredResults[0]}`
+          newEndpoint = `https://pokeapi.co/api/v2/pokemon/${filteredResults[0].name}`
         })
         .then(() => {
           fetch(newEndpoint)
