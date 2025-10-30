@@ -1,6 +1,7 @@
 import React from "react";
 import DataCard from "./DataCard"
 import ImageCard from "./ImageCard"
+import closeMatch from "./closeMatch";
 
 export default function Item() {
   const [data, setData] = React.useState(null);
@@ -57,23 +58,7 @@ export default function Item() {
   
   return (
     <main>
-      <div className="pokemon-card">
-        {error && (
-          <p>{isSearch
-            ? `${lastSearch || "That Pokémon"} could not be found.`
-            : "Something went wrong, please try again."}
-          </p>)}
-        {data? 
-          <section>
-            <DataCard 
-              data = {data}
-            />
-            <ImageCard
-              data ={data}
-            /> 
-          </section>: (
-            clicked && !error ? <p>loading...</p>: null)}
-      </div>
+      <closeMatch >
       <form onSubmit={(event) => {formSubmit(event)}}>
         <label>Enter a name to search: 
           <input type="text" value={input} 
