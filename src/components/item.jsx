@@ -15,27 +15,65 @@ export default function Item() {
     }, []);
 
 
-  function fetchData(name) {
+  function fetchData(pokeName) {
     setData(null)
     setError(null)
     setClicked(true)
     let endpoint;
  
 
-    if (name) {
-      name = name.toLowerCase();
-      endpoint = `https://pokeapi.co/api/v2/pokemon/${name}`;
-    } 
+    // if (name) {
+    //   name = name.toLowerCase();
+    //   endpoint = `https://pokeapi.co/api/v2/pokemon/${name}`;
+    // } 
+
+    if (pokeName) {
+      endpoint = `https://pokeapi.co/api/v2/pokemon`;
+
+      let siftThrough
+      let filteredResults
+      let newEndpoint
+
+      fetch(endpoint)
+        .then((response) => response.json())
+        .then((json) => {
+          siftThrough=json;
+        })
+        .then(() => {
+          console.log(siftThrough.results)
+            filteredResults = siftThrough.results.filter((item) => {
+            console.log(item.name)
+            item.name.toLowerCase().includes(pokeName.toLowerCase())
+          })
+        })
+        .then(() => {
+          console.log(filteredResults)
+          newEndpoint = `https://pokeapi.co/api/v2/pokemon/${filteredResults[0]}`
+        })
+        .then(() => {
+          fetch(newEndpoint)
+          .then((res) => res.json())
+          .then((json) => setData(json))
+        })
+        .catch((error) => setError(error));
+    }
     
     else {
       const randomNum = Math.floor(Math.random() * 1100) + 1;
       endpoint = `https://pokeapi.co/api/v2/pokemon/${randomNum}`;
     }
-    
-    fetch(endpoint)
-      .then((response) => response.json())
-      .then((json) => setData(json))
-      .catch((error) => setError(error));
+
+    // const filteredResults = siftThrough.results.filter(item => {
+    //   item.name.toLowerCase().includes(name.toLowerCase())
+    // });
+
+    // console.log(filteredResults)
+    // const newEndpoint = `https://pokeapi.co/api/v2/pokemon/${filteredResults}`
+
+    // fetch(newEndpoint)
+    //   .then((response) => response.json())
+    //   .then((json) => setData(json))
+    //   .catch((error) => setError(error));
   }
 
   function formSubmit(event) {
@@ -50,6 +88,8 @@ export default function Item() {
       return;
     }
 
+    
+
     setLastSearch(input);
     fetchData(input);
     setInput("");
@@ -57,17 +97,7 @@ export default function Item() {
   
   return (
     <main>
-      <CloseMatch error = {error} isSearch = {isSearch} lastSearch = {lastSearch} data = {data} clicked = {clicked}/>
-      <form onSubmit={(event) => {formSubmit(event)}}>
-        <label>Enter a name to search: 
-          <input type="text" value={input} 
-            onChange={(event) => setInput(event.target.value)}
-            placeholder="pikachu">
-          </input>
-        </label>
-        <button type="submit">Search</button>
-      </form>
-      <button onClick={() => fetchData()}>Catch a Random Pokémon</button>
+      <CloseMatch error = {error} isSearch = {isSearch} lastSearch = {lastSearch} data = {data} clicked = {clicked} formSubmit = {formSubmit} input={input} setInput = {setInput} fetchData={fetchData}/>
     </main>
   );
 }
