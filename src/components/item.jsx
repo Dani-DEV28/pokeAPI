@@ -1,7 +1,6 @@
 import React from "react";
-import DataCard from "./DataCard"
-import ImageCard from "./ImageCard"
-import closeMatch from "./closeMatch";
+
+import CloseMatch from "./closeMatch";
 
 export default function Item() {
   const [data, setData] = React.useState(null);
@@ -58,7 +57,7 @@ export default function Item() {
   
   return (
     <main>
-      <closeMatch >
+      <CloseMatch error = {error} isSearch = {isSearch} lastSearch = {lastSearch} data = {data} clicked = {clicked}/>
       <form onSubmit={(event) => {formSubmit(event)}}>
         <label>Enter a name to search: 
           <input type="text" value={input} 
