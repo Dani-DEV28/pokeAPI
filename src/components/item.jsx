@@ -20,12 +20,6 @@ export default function Item() {
     setError(null)
     setClicked(true)
     let endpoint;
- 
-
-    // if (name) {
-    //   name = name.toLowerCase();
-    //   endpoint = `https://pokeapi.co/api/v2/pokemon/${name}`;
-    // } 
 
     if (pokeName) {
       endpoint = `https://pokeapi.co/api/v2/pokemon?limit=2000`;
@@ -61,19 +55,11 @@ export default function Item() {
     else {
       const randomNum = Math.floor(Math.random() * 1100) + 1;
       endpoint = `https://pokeapi.co/api/v2/pokemon/${randomNum}`;
+      fetch(endpoint)
+      .then((res) => res.json())
+      .then(json => setData(json))
+      .catch(error => setError(error))
     }
-
-    // const filteredResults = siftThrough.results.filter(item => {
-    //   item.name.toLowerCase().includes(name.toLowerCase())
-    // });
-
-    // console.log(filteredResults)
-    // const newEndpoint = `https://pokeapi.co/api/v2/pokemon/${filteredResults}`
-
-    // fetch(newEndpoint)
-    //   .then((response) => response.json())
-    //   .then((json) => setData(json))
-    //   .catch((error) => setError(error));
   }
 
   function formSubmit(event) {
