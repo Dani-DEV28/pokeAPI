@@ -53,7 +53,7 @@ export default function Item() {
     }
     
     else {
-      const randomNum = Math.floor(Math.random() * 1100) + 1;
+      const randomNum = Math.floor(Math.random() * 1025) + 1;
       endpoint = `https://pokeapi.co/api/v2/pokemon/${randomNum}`;
       fetch(endpoint)
       .then((res) => res.json())
